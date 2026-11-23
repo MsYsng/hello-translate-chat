@@ -1,0 +1,167 @@
+<title>HELLO chat 使い方ガイド</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a name-badge header, then one reading column; the participant section is a cut-out "card" you can hand over. */
+:root{
+  --bg:#f4f2ef; --paper:#ffffff; --ink:#1a1a1c; --mute:#66625d; --line:#e2ddd6;
+  --red:#d7332b; --red-ink:#ffffff; --red-soft:#fbe6e4; --ok:#2f7d4f; --warn:#a15c00;
+  --display:"Archivo Black","Arial Black",Arial,sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141415; --paper:#1e1f21; --ink:#ecebe8; --mute:#a29d96; --line:#33343a;
+  --red:#e0443b; --red-ink:#ffffff; --red-soft:#3a1d1b; --ok:#6cc48f; --warn:#e0a54a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141415; --paper:#1e1f21; --ink:#ecebe8; --mute:#a29d96; --line:#33343a;
+  --red:#e0443b; --red-ink:#ffffff; --red-soft:#3a1d1b; --ok:#6cc48f; --warn:#e0a54a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.75 var(--body);margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.hero{background:var(--red);color:var(--red-ink);margin-top:calc(-1*env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 2.2rem);padding-bottom:1.8rem}
+.hero h1{font:400 clamp(44px,9vw,72px)/1 var(--display);margin:0;letter-spacing:.01em}
+.hero .sub{margin:.35rem 0 0;font-size:15px;opacity:.92}
+.hero .lead{margin:1.1rem 0 0;font-size:17px;max-width:60ch}
+main{display:grid;gap:2.6rem;padding-block:2.4rem 4rem}
+h2{font:700 24px/1.35 var(--body);margin:0 0 .9rem;text-wrap:balance;display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+h2 .who{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--red);border:1.5px solid var(--red);border-radius:99px;padding:.35em .7em}
+h3{font:700 17px/1.4 var(--body);margin:1.6rem 0 .5rem}
+p{margin:.4rem 0}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:.4rem}
+.fact{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.fact b{display:block;font-size:15px}.fact span{font-size:14px;color:var(--mute)}
+ul,ol{margin:.3rem 0;padding-left:1.4em}li{margin:.25rem 0}li::marker{color:var(--mute)}
+ol.steps{list-style:none;padding:0;counter-reset:s;display:grid;gap:10px}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:2rem 1fr;gap:.2rem .7rem;margin:0}
+ol.steps>li::before{content:counter(s);font:400 15px/2rem var(--display);width:2rem;height:2rem;text-align:center;border-radius:50%;background:var(--ink);color:var(--bg)}
+ol.steps>li>div{min-width:0;padding-top:.15rem}
+code,kbd{font:500 .9em var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:.08em .4em;overflow-wrap:anywhere}
+pre{font:500 14px/1.5 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:.5rem 0;overflow-x:auto}
+.ui{font-weight:700;color:var(--red);white-space:nowrap}
+.note{border-left:3px solid var(--warn);background:var(--paper);padding:10px 14px;border-radius:0 10px 10px 0;margin:.8rem 0;font-size:15px}
+.note b{color:var(--warn)}
+.tip{border-left-color:var(--ok)}.tip b{color:var(--ok)}
+.tbl{overflow-x:auto;margin:.6rem 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--paper);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--mute);font-weight:500}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+/* participant card: looks like the badge the app shows */
+.card{background:var(--paper);border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 40px -24px rgba(0,0,0,.35)}
+.card .top{background:var(--red);color:var(--red-ink);text-align:center;padding:18px 16px 14px}
+.card .top b{display:block;font:400 40px/1 var(--display)}.card .top span{font-size:14px}
+.card ol.steps{padding:20px}
+.card .en{display:block;color:var(--mute);font-size:14px;line-height:1.5}
+.card .fill{display:inline-block;min-width:11ch;border-bottom:1.5px dashed var(--mute);font-family:var(--mono)}
+footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<header class="hero"><div class="wrap">
+  <h1>HELLO</h1>
+  <p class="sub">chat · 使い方ガイド</p>
+  <p class="lead">初対面の外国語話者と、ログインなしで翻訳チャットするためのツールです。各自が自分の言語で書くと、相手には相手の言語で届きます。</p>
+</div></header>
+
+<div class="wrap"><main>
+
+<section>
+  <h2>しくみ</h2>
+  <div class="facts">
+    <div class="fact"><b>ラップトップ1台が翻訳役</b><span>Chrome / Edge の端末内翻訳で全員分を訳します。翻訳内容は外部に送られません。</span></div>
+    <div class="fact"><b>参加者はスマホで開くだけ</b><span>アプリもアカウントも不要。同じWi-FiでURLかQRコードを開きます。</span></div>
+    <div class="fact"><b>3人以上・多言語もOK</b><span>参加者全員の言語に訳して届けます。20言語から選べます。</span></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="who">主催者</span>ラップトップ担当の準備</h2>
+
+  <h3>必要なもの</h3>
+  <ul>
+    <li>Python 3.8 以上が入ったラップトップ（Mac / Windows）と <code>hello_chat.py</code></li>
+    <li>デスクトップ版の Chrome または Edge（最新版）</li>
+    <li>ラップトップと参加者のスマホが同じWi-Fiにつながれること</li>
+  </ul>
+  <div class="note"><b>Wi-Fiに注意:</b> ゲスト用Wi-Fiやホテル・会場の公衆Wi-Fiは、端末どうしの通信を禁止していることが多く、スマホから開けません。その場合はスマホのテザリングに全員でつなぐと確実です。</div>
+
+  <h3>イベント前日までに（おすすめ）</h3>
+  <p>翻訳モデルは「日本語→英語」「英語→日本語」のように、言語の組み合わせと向きごとに1回ダウンロードが必要です。1度ダウンロードすれば、そのラップトップの Chrome に残ります。当日に慌てないよう、使いそうな言語は先に準備しておきましょう。</p>
+  <ol class="steps">
+    <li><div>ターミナルでサーバーを起動します。<pre>python3 hello_chat.py</pre>表示される <b>Laptop</b> と <b>Phone URL</b> の2つのURLを控えます。</div></li>
+    <li><div>Chrome で <code>http://localhost:8765</code> を開き、自分の名前と言語を入れて <span class="ui">話し始める</span>。</div></li>
+    <li><div>同じ Chrome の別タブで <b>Phone URL</b>（<code>http://192.168.…:8765</code> の形）を開き、準備したい言語で参加します。このタブはスマホと同じ「表示だけ」の参加者になります。</div></li>
+    <li><div>最初のタブに戻ると <span class="ui">翻訳モデルをダウンロード: …</span> ボタンが出ます。<b>1回押すと1組</b>ダウンロードされ、次の組に進みます。ボタンが消えるまで押してください。</div></li>
+    <li><div>2つ目のタブの言語を変えて（名前の画面に戻すにはリロード）、ほかの言語でも繰り返します。</div></li>
+  </ol>
+
+  <div class="tbl"><table>
+    <thead><tr><th>参加者の言語の数</th><th>必要なダウンロード（クリック数）</th><th>例</th></tr></thead>
+    <tbody>
+      <tr><td>2言語</td><td class="n">2</td><td>日本語・英語</td></tr>
+      <tr><td>3言語</td><td class="n">6</td><td>日本語・英語・スペイン語</td></tr>
+      <tr><td>4言語</td><td class="n">12</td><td>＋韓国語</td></tr>
+      <tr><td>5言語</td><td class="n">20</td><td>＋中国語</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>当日の流れ</h3>
+  <ol class="steps">
+    <li><div><code>python3 hello_chat.py</code> でサーバーを起動します。初回に macOS が「受信接続を許可しますか？」と聞いてきたら <b>許可</b> を選びます。</div></li>
+    <li><div>Chrome で <code>http://localhost:8765</code> を開き、名前と言語を入れて参加します。名前画面の下に、参加者用のURLとQRコードが出ます。</div></li>
+    <li><div>相手にQRコードを読んでもらうか、URLを伝えます（下の「参加者向けカード」を見せてもOK）。</div></li>
+    <li><div>新しい言語の人が入ってきて <span class="ui">翻訳モデルをダウンロード</span> ボタンが出たら押します。ボタンの下に進み具合（%）が出ます。その間、相手のスマホには「翻訳役のPCで翻訳データを準備しています…」と表示されます。</div></li>
+    <li><div>終わったらターミナルで <kbd>Ctrl</kbd>+<kbd>C</kbd> を押して止めます。会話はその時点ですべて消えます。</div></li>
+  </ol>
+
+  <div class="note"><b>会話中は守ってください:</b>
+    <ul>
+      <li>翻訳役の Chrome タブを閉じない・ラップトップをスリープさせない（ふたを閉じない）。止まると全員の翻訳が止まります。</li>
+      <li>localhost のタブは1つだけにする。2つ開くと両方が翻訳役になってしまいます。</li>
+      <li>ラップトップのブラウザでは、必ず <code>localhost</code> のほうのURLを開く。<code>192.168…</code> のURLでは翻訳機能が動きません。</li>
+    </ul>
+  </div>
+  <div class="note tip"><b>知っておくと安心:</b> ログインがないため、同じWi-FiでURLを知っている人は誰でも参加して会話を読めます。人の多い会場では、使い終わったらサーバーを止めてください。</div>
+</section>
+
+<section>
+  <h2><span class="who">参加者</span>参加者向けカード</h2>
+  <p>相手に見せる・印刷して置く用です。Wi-Fi名とURLは当日のものを書き入れてください。</p>
+  <div class="card">
+    <div class="top"><b>HELLO</b><span>my name is / はじめまして</span></div>
+    <ol class="steps">
+      <li><div>Wi-Fi <span class="fill">&nbsp;</span> につなぐ
+        <span class="en">Connect to this Wi-Fi.</span></div></li>
+      <li><div>QRコードを読むか、このURLを開く <span class="fill">http://</span>
+        <span class="en">Scan the QR code or open this URL in your browser. No app or account needed.</span></div></li>
+      <li><div>名前を入れて、自分の言語を選び、<b>Start chatting</b>
+        <span class="en">Type your name, choose the language you speak, and tap “Start chatting”.</span></div></li>
+      <li><div>自分の言語でそのまま書く。相手には相手の言語で届きます
+        <span class="en">Write in your own language. Everyone else reads it in theirs. Messages from others appear in your language, with the original below.</span></div></li>
+      <li><div>「翻訳中…」は数秒待つ。「準備しています…」はもう少し待つ
+        <span class="en">“Translating…” takes a few seconds. “Preparing translation data…” means the host is downloading a language, so please wait a moment.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>困ったとき</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>こんなとき</th><th>確認すること</th></tr></thead>
+    <tbody>
+      <tr><td>スマホでURLが開けない</td><td>同じWi-Fiか確認。ゲストWi-Fiなら端末どうしの通信が禁止されている可能性があるので、テザリングに切り替えます。macOS のファイアウォールで Python の受信を拒否していないかも確認します。</td></tr>
+      <tr><td>ずっと「翻訳中…」のまま</td><td>ラップトップの localhost のタブを開き、<span class="ui">翻訳モデルをダウンロード</span> ボタンが出ていないか見ます。タブが閉じていたら開き直して参加します。</td></tr>
+      <tr><td>「翻訳役のPC（ChromeかEdge）がまだ参加していません」</td><td>ラップトップで <code>http://localhost:8765</code> をデスクトップ版の Chrome / Edge で開き、参加します。</td></tr>
+      <tr><td>「翻訳できない言語の組み合わせです」</td><td>その組み合わせに Chrome が対応していません。原文がそのまま表示されます。英語など共通の言語で書いてもらうと届きます。</td></tr>
+      <tr><td>「接続が切れました。再接続中…」</td><td>自動でつなぎ直します。スマホの画面ロックやWi-Fiの切り替わりで起きます。続く場合はページを再読み込みし、もう一度参加します（名前は覚えています）。</td></tr>
+      <tr><td>QRコードが表示されない</td><td>QRコードの表示にはインターネット接続が必要です。出ないときは画面のURLを相手に伝えてください。</td></tr>
+      <tr><td>訳が少し不自然</td><td>端末内の翻訳なので、くだけた表現や固有名詞は誤訳しがちです。短く、はっきりした文で書くと伝わりやすくなります。</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+</main>
+<footer>HELLO chat（hello_chat.py）用。動作確認: Chrome 158 / macOS、日本語・英語・スペイン語・韓国語。</footer>
+</div>
