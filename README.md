@@ -3,7 +3,7 @@
 初対面の外国語話者と、ログインなしで翻訳チャットするためのツールです。
 各自が自分の言語で書くと、相手には相手の言語で届きます。
 
-🚀 **[クイックスタート（図解・4ステップ）](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html)**（[やさしい にほんご](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_easy.html) / [English](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)） ・ 📖 **[詳しい使い方ガイド（主催者の準備・参加者向けカード・困ったとき）](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
+🚀 **[クイックスタート（図解・4ステップ）](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html)**（[やさしい にほんご](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_easy.html) / [English](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)） ・ 📖 **[詳しい使い方ガイド（主催者の準備・困ったとき）](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)** ・ 🪪 **[参加者カード（印刷用）](https://msysng.github.io/hello-translate-chat/hello_chat_card.html)**
 
 *English follows below.*
 
@@ -148,7 +148,7 @@ API キーは Anthropic の開発者向けサイト **Claude Console**（[platfo
 | 起動用ファイルが開けない（Mac） | 右クリック →「開く」を選びます。それでも開けないときは、ターミナルで `python3 hello_chat.py --open` を実行します。 |
 | 「Port 8765 is already in use」 | すでに起動しています。`http://localhost:8765/admin` を開いてください。 |
 
-主催者向けの詳しい手順と、参加者に見せるカード（日本語・英語）は [hello_chat_guide.html](hello_chat_guide.html) にあります。ブラウザで開いてください。
+主催者向けの詳しい手順は [hello_chat_guide.html](hello_chat_guide.html) にあります。参加者に見せる印刷用カード（日本語・英語・中文・한국어・Español、書き込み不要）は [参加者カード](https://msysng.github.io/hello-translate-chat/hello_chat_card.html) か [PDF](hello_chat_card.pdf) を使ってください。
 
 ## 動作確認済みの環境
 
@@ -161,7 +161,7 @@ API キーは Anthropic の開発者向けサイト **Claude Console**（[platfo
 
 HELLO chat is a login-free, translated group chat for meeting people who speak other languages. Everyone writes in their own language and reads everyone else's messages in theirs.
 
-🚀 **[Quick start, illustrated](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)** · 📖 **[Full guide (Japanese, with an English participant card)](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
+🚀 **[Quick start, illustrated](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)** · 📖 **[Full guide (Japanese)](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)** · 🪪 **[Printable participant card (multilingual)](https://msysng.github.io/hello-translate-chat/hello_chat_card.html)**
 
 - **One laptop does the translating.** By default it uses the [Translator API](https://developer.chrome.com/docs/ai/translator-api) built into desktop Chrome and Edge, which runs on the device. No API key or account, and messages are not sent to an outside translation service.
 - **Optional: translate with Claude.** With an Anthropic API key, the server translates with Claude instead: more natural, context-aware translations and no model downloads.

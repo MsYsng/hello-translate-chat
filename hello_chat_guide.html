@@ -117,7 +117,7 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
   <ol class="steps">
     <li><div>起動用ファイルをダブルクリックします（Mac は <code>HELLO-chat.command</code>、Windows は <code>HELLO-chat.bat</code>）。ブラウザで管理画面が開きます。Mac で初回に開けないときは、右クリック →「開く」を選びます。macOS が「受信接続を許可しますか？」と聞いてきたら <b>許可</b> を選びます。</div></li>
     <li><div>管理画面の <span class="ui">チャット画面を開く</span> から Chrome でチャット画面を開き、名前と言語を入れて参加します。管理画面とチャット画面に、参加者用のURLとQRコードが出ます。</div></li>
-    <li><div>相手にQRコードを読んでもらうか、URLを伝えます（下の「参加者向けカード」を見せてもOK）。</div></li>
+    <li><div>相手にQRコードを読んでもらうか、URLを伝えます（<a href="https://msysng.github.io/hello-translate-chat/hello_chat_card.html">参加者カード</a>を見せてもOK）。</div></li>
     <li><div>新しい言語の人が入ってきて <span class="ui">翻訳モデルをダウンロード</span> ボタンが出たら押します。ボタンの下に進み具合（%）が出ます。その間、相手のスマホには「翻訳役のPCで翻訳データを準備しています…」と表示されます。</div></li>
     <li><div>終わったら、管理画面の <span class="ui">サーバーを終了</span> を押します。会話はその時点ですべて消えます。サーバーを止めずに会話だけリセットしたいときは <span class="ui">チャットを終了</span> → <span class="ui">チャットを開始</span> を使います。</div></li>
   </ol>
@@ -165,22 +165,8 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 
 <section>
   <h2><span class="who">参加者</span>参加者向けカード</h2>
-  <p>相手に見せる・印刷して置く用です。Wi-Fi名とURLは当日のものを書き入れてください。</p>
-  <div class="card">
-    <div class="top"><b>HELLO</b><span>my name is / はじめまして</span></div>
-    <ol class="steps">
-      <li><div>Wi-Fi <span class="fill">&nbsp;</span> につなぐ（名前が完全に同じか確認）
-        <span class="en">Connect to this Wi-Fi (check the name matches exactly).</span></div></li>
-      <li><div>QRコードを読むか、このURLを開く <span class="fill">http://</span>
-        <span class="en">Scan the QR code or open this URL in your browser. No app or account needed.</span></div></li>
-      <li><div>名前を入れて、自分の言語を選び、<b>Start chatting</b>
-        <span class="en">Type your name, choose the language you speak, and tap “Start chatting”.</span></div></li>
-      <li><div>自分の言語でそのまま書く。相手には相手の言語で届きます
-        <span class="en">Write in your own language. Everyone else reads it in theirs. Messages from others appear in your language, with the original below.</span></div></li>
-      <li><div>「翻訳中…」は数秒待つ。「準備しています…」はもう少し待つ
-        <span class="en">“Translating…” takes a few seconds. “Preparing translation data…” means the host is downloading a language, so please wait a moment.</span></div></li>
-    </ol>
-  </div>
+  <p>参加者に見せたり、机に置いたりするカードは、印刷しやすい別のページにしました。Wi-Fi 名や URL を書き込まなくても使えるので、毎回そのまま印刷できます。日本語・英語・中文・한국어・Español で書いてあります。</p>
+  <p><a href="https://msysng.github.io/hello-translate-chat/hello_chat_card.html"><b>参加者カードを開く →</b></a>（A4 1枚に2枚分。<a href="https://msysng.github.io/hello-translate-chat/hello_chat_card.pdf">PDF版</a>もあります）</p>
 </section>
 
 <section>
