@@ -48,6 +48,7 @@
 
 - **チャット**: 参加人数とメッセージ数、参加者用の URL と QR コード。「チャットを終了」で送信を止めて会話を消去し、「チャットを開始」で新しい会話を始めます。サーバーを止めずに、回ごとに会話をリセットできます。
 - **翻訳**: Chrome と Claude の切り替え、Claude のモデル選択、API キーの入力（下の「Claude で翻訳する」）。
+- **使い方と印刷物**: クイックスタート（日本語・やさしい にほんご・English）、詳しい使い方ガイド、参加者カード（印刷用ページと PDF）を新しいタブで開きます。インターネット接続が必要です。
 - **サーバー**: 「サーバーを終了」で全員の接続を切って停止します。もう一度使うときは、起動用ファイルをダブルクリックします。
 
 ### 翻訳モデルは事前に準備しておくのがおすすめ
@@ -186,7 +187,7 @@ If a phone shows "This site can't be reached", first check that it is on exactly
 4. When a **"Download translation model"** button appears, click it. **Each click downloads one language pair in one direction** (e.g. Japanese → English).
 5. To stop, click **Stop server** on the admin screen (or press `Ctrl+C` in the terminal). The conversation is deleted.
 
-The admin screen (`http://localhost:8765/admin`) opens only on the laptop running the server, not from phones or other websites. "End chat" stops sending and deletes the conversation without stopping the server; "Start chat" begins a new one.
+The admin screen (`http://localhost:8765/admin`) opens only on the laptop running the server, not from phones or other websites. "End chat" stops sending and deletes the conversation without stopping the server; "Start chat" begins a new one. It also links to the quick starts, the full guide and the printable participant card.
 
 **Tip:** download models before the event. Open the `http://192.168.…:8765` URL in a second laptop tab and join with the language you want to prepare (that tab acts like a phone), then click the buttons in the `localhost` tab. Models stay in Chrome once downloaded.
 

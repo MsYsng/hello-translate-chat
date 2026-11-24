@@ -669,6 +669,10 @@ a{color:var(--red)}
 #qr{background:#fff;padding:8px;border-radius:8px;display:inline-block}
 .lan{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .lan b{font-size:18px;word-break:break-all}
+.docs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.docs a{display:grid;gap:2px;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:var(--ink)}
+.docs a:hover{border-color:var(--red)}
+.docs b{color:var(--red)}.docs span{font-size:13px;color:var(--mute)}
 #stopped{display:none;text-align:center;padding:60px 16px}
 </style></head><body>
 <header><div class="wrap"><b>HELLO</b><span id="h_sub"></span></div></header>
@@ -699,6 +703,12 @@ a{color:var(--red)}
   </section>
 
   <section>
+    <h2 id="h_docs"></h2>
+    <ul class="docs" id="docs"></ul>
+    <p class="note" id="n_docs"></p>
+  </section>
+
+  <section>
     <h2 id="h_srv"></h2>
     <p class="note" id="n_srv"></p>
     <div class="row"><button class="btn sub" id="b_stop"></button></div>
@@ -725,6 +735,8 @@ const T={ja:{
   offline:"Claude に接続できません（インターネット接続を確認してください）。今は Chrome で翻訳します。",error:"Claude を使えません: {detail}。今は Chrome で翻訳します。",
   paused:"Claude に一時的に接続できないため、Chrome で翻訳しています。自動で再試行します。"},
  chromeNote:"Chrome で翻訳するときは、このPCの Chrome で「チャット画面を開く」から参加しておいてください。",
+ docs:"使い方と印刷物",ndocs:"GitHub 上のページを新しいタブで開きます（インターネット接続が必要です）。",
+ docList:[["quickstart","クイックスタート","図と4ステップで、初めての人向けに"],["quickstart_easy","クイックスタート（やさしい にほんご）","ふりがな付き"],["quickstart_en","クイックスタート（English）","英語を話す人向け"],["guide","詳しい使い方ガイド","事前の準備、Claude 翻訳、困ったとき"],["card","参加者カード（印刷用）","書き込み不要。A4に2枚分。日本語・英語・中文・한국어・Español"],["pdf","参加者カード（PDF）","そのまま印刷できる版"]],
  srv:"サーバー",nsrv:"サーバーを終了すると、全員の接続が切れ、会話は消えます。もう一度使うときは、起動用ファイル（HELLO-chat.command など）をダブルクリックするか、ターミナルで python3 hello_chat.py を実行します。",
  stop:"サーバーを終了",cstop:"サーバーを終了しますか？全員の接続が切れ、会話は消えます。",cclose:"チャットを終了しますか？会話は消去されます。",
  stopped:"サーバーを終了しました",nstopped:"このタブは閉じて大丈夫です。もう一度使うときは、起動用ファイルをダブルクリックしてください。",
@@ -746,6 +758,8 @@ en:{
   offline:"Can't reach Claude (check the internet connection). Chrome translates for now.",error:"Claude isn't available: {detail}. Chrome translates for now.",
   paused:"Claude is temporarily unreachable, so Chrome is translating. It will retry automatically."},
  chromeNote:"For Chrome translation, keep the chat open in Chrome on this laptop (\"Open the chat\").",
+ docs:"Guides and printouts",ndocs:"These open pages on GitHub in a new tab (needs an internet connection).",
+ docList:[["quickstart_en","Quick start","Four illustrated steps for first-timers"],["quickstart_easy","Quick start in easy Japanese","やさしい にほんご"],["guide","Full guide (Japanese)","Preparing, Claude translation, troubleshooting"],["card","Participant card (printable)","No blanks to fill in. Two per A4 sheet. Japanese, English, Chinese, Korean, Spanish"],["pdf","Participant card (PDF)","Ready to print"]],
  srv:"Server",nsrv:"Stopping the server disconnects everyone and deletes the conversation. To use it again, double-click the launcher file (HELLO-chat.command etc.) or run python3 hello_chat.py.",
  stop:"Stop server",cstop:"Stop the server? Everyone is disconnected and the conversation is deleted.",cclose:"End the chat? The conversation is deleted.",
  stopped:"The server has stopped",nstopped:"You can close this tab. To use it again, double-click the launcher file.",
@@ -755,9 +769,12 @@ document.documentElement.lang=t===T.ja?'ja':'en';
 const $=id=>document.getElementById(id);
 const txt={h_sub:'sub',h_chat:'chat',l_people:'people',l_msgs:'msgs',l_lan:'lan',a_chat:'achat',b_open:'bopen',b_close:'bclose',n_close:'nclose',
  h_tr:'tr',l_chrome:'chrome',s_chrome:'schrome',l_claude:'claude',s_claude:'sclaude',l_model:'model',l_rem:'rem',n_key:'nkey',b_save:'save',b_forget:'forget',
- h_srv:'srv',n_srv:'nsrv',b_stop:'stop',h_stopped:'stopped',n_stopped:'nstopped'};
+ h_docs:'docs',n_docs:'ndocs',h_srv:'srv',n_srv:'nsrv',b_stop:'stop',h_stopped:'stopped',n_stopped:'nstopped'};
 for(const[id,k]of Object.entries(txt))$(id).textContent=t[k];
 $('l_lan').append(document.createElement('br'));
+{const base='https://msysng.github.io/hello-translate-chat/',file={quickstart:'hello_chat_quickstart.html',quickstart_easy:'hello_chat_quickstart_easy.html',quickstart_en:'hello_chat_quickstart_en.html',guide:'hello_chat_guide.html',card:'hello_chat_card.html',pdf:'hello_chat_card.pdf'};
+ for(const[k,title,desc]of t.docList){const li=document.createElement('li'),a=document.createElement('a'),b=document.createElement('b'),sp=document.createElement('span');
+  a.href=base+file[k];a.target='_blank';a.rel='noopener';b.textContent=title+' ↗';sp.textContent=desc;a.append(b,sp);li.append(a);$('docs').append(li);}}
 let S=null,qrDone=false,touched=false,lost=false;
 const pill=(el,cls,label)=>{el.className='pill '+cls;el.querySelector('span').textContent=label};
 function render(){
