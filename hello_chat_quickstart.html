@@ -27,6 +27,11 @@ body{background:var(--bg);color:var(--ink);font:16px/1.75 var(--body);margin:0}
 header.hero{background:var(--red);color:var(--red-ink);margin-top:calc(-1*env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 2.2rem);padding-bottom:1.8rem}
 .hero h1{font:400 clamp(44px,9vw,72px)/1 var(--display);margin:0;letter-spacing:.01em}
 .hero .sub{margin:.35rem 0 0;font-size:15px;opacity:.92}
+.langs{display:flex;flex-wrap:wrap;gap:6px;margin-top:.9rem}
+.langs a{color:var(--red-ink);text-decoration:none;font-size:13.5px;border:1.5px solid currentColor;border-radius:99px;padding:.15em .8em;opacity:.85}
+.langs a[aria-current]{background:var(--red-ink);color:var(--red);opacity:1;font-weight:700}
+.langs a:hover{opacity:1}
+.langs a:focus-visible{outline:2px solid var(--red-ink);outline-offset:2px}
 .hero .lead{margin:1rem 0 0;font-size:19px;font-weight:700;text-wrap:balance}
 main{display:grid;gap:2.4rem;padding-block:2.2rem 3.5rem}
 h2{font:700 22px/1.35 var(--body);margin:0 0 .8rem;text-wrap:balance}
@@ -92,6 +97,7 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 <header class="hero"><div class="wrap">
   <h1>HELLO</h1>
   <p class="sub">chat · クイックスタート</p>
+  <nav class="langs" aria-label="言語"><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html" hreflang="ja" aria-current="page">日本語</a><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_easy.html" hreflang="ja">やさしい にほんご</a><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html" hreflang="en">English</a></nav>
   <p class="lead">ラップトップ1台とスマホで、言葉の違う人とすぐ話せます。<br>4ステップ、5分で試せます。</p>
 </div></header>
 

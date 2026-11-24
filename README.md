@@ -3,7 +3,7 @@
 初対面の外国語話者と、ログインなしで翻訳チャットするためのツールです。
 各自が自分の言語で書くと、相手には相手の言語で届きます。
 
-🚀 **[クイックスタート（図解・4ステップ）](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html)** ・ 📖 **[詳しい使い方ガイド（主催者の準備・参加者向けカード・困ったとき）](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
+🚀 **[クイックスタート（図解・4ステップ）](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html)**（[やさしい にほんご](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_easy.html) / [English](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)） ・ 📖 **[詳しい使い方ガイド（主催者の準備・参加者向けカード・困ったとき）](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
 
 *English follows below.*
 
@@ -161,7 +161,7 @@ API キーは Anthropic の開発者向けサイト **Claude Console**（[platfo
 
 HELLO chat is a login-free, translated group chat for meeting people who speak other languages. Everyone writes in their own language and reads everyone else's messages in theirs.
 
-🚀 **[Quick start, illustrated (Japanese)](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html)** · 📖 **[Full guide (Japanese, with an English participant card)](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
+🚀 **[Quick start, illustrated](https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html)** · 📖 **[Full guide (Japanese, with an English participant card)](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
 
 - **One laptop does the translating.** By default it uses the [Translator API](https://developer.chrome.com/docs/ai/translator-api) built into desktop Chrome and Edge, which runs on the device. No API key or account, and messages are not sent to an outside translation service.
 - **Optional: translate with Claude.** With an Anthropic API key, the server translates with Claude instead: more natural, context-aware translations and no model downloads.

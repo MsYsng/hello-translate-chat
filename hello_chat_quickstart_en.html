@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HELLO chat Quick Start</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: sibling of the detailed guide — red name-badge header, one picture of how it works, then four numbered steps, each a picture beside a few lines. */
+:root{
+  --bg:#f4f2ef; --paper:#ffffff; --ink:#1a1a1c; --mute:#66625d; --line:#e2ddd6; --screen:#f7f5f2;
+  --red:#d7332b; --red-ink:#ffffff; --red-soft:#fbe6e4; --ok:#2f7d4f; --warn:#a15c00; --bubble:#ece8e2;
+  --display:"Archivo Black","Arial Black",Arial,sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141415; --paper:#1e1f21; --ink:#ecebe8; --mute:#a29d96; --line:#3a3b41; --screen:#26272a;
+  --red:#e0443b; --red-ink:#ffffff; --red-soft:#3a1d1b; --ok:#6cc48f; --warn:#e0a54a; --bubble:#34353a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141415; --paper:#1e1f21; --ink:#ecebe8; --mute:#a29d96; --line:#3a3b41; --screen:#26272a;
+  --red:#e0443b; --red-ink:#ffffff; --red-soft:#3a1d1b; --ok:#6cc48f; --warn:#e0a54a; --bubble:#34353a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.75 var(--body);margin:0}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.hero{background:var(--red);color:var(--red-ink);margin-top:calc(-1*env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 2.2rem);padding-bottom:1.8rem}
+.hero h1{font:400 clamp(44px,9vw,72px)/1 var(--display);margin:0;letter-spacing:.01em}
+.hero .sub{margin:.35rem 0 0;font-size:15px;opacity:.92}
+.langs{display:flex;flex-wrap:wrap;gap:6px;margin-top:.9rem}
+.langs a{color:var(--red-ink);text-decoration:none;font-size:13.5px;border:1.5px solid currentColor;border-radius:99px;padding:.15em .8em;opacity:.85}
+.langs a[aria-current]{background:var(--red-ink);color:var(--red);opacity:1;font-weight:700}
+.langs a:hover{opacity:1}
+.langs a:focus-visible{outline:2px solid var(--red-ink);outline-offset:2px}
+.hero .lead{margin:1rem 0 0;font-size:19px;font-weight:700;text-wrap:balance}
+main{display:grid;gap:2.4rem;padding-block:2.2rem 3.5rem}
+h2{font:700 22px/1.35 var(--body);margin:0 0 .8rem;text-wrap:balance}
+p{margin:.35rem 0}
+code{font:500 .9em var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:.08em .4em;overflow-wrap:anywhere}
+.ui{font-weight:700;color:var(--red)}
+a{color:var(--red)}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+
+/* drawings: every color comes from the tokens */
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--body);fill:var(--ink)}
+.s-paper{fill:var(--paper);stroke:var(--line);stroke-width:2}
+.s-ink{fill:var(--ink)} .s-inkline{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.s-screen{fill:var(--screen)} .s-red{fill:var(--red)} .s-redline{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round}
+.s-bub{fill:var(--bubble)} .s-line{fill:none;stroke:var(--line);stroke-width:2}
+.s-dash{fill:none;stroke:var(--mute);stroke-width:2;stroke-dasharray:4 6;stroke-linecap:round}
+.s-mute{fill:var(--mute)} svg text.t-mute{fill:var(--mute)} svg text.t-red{fill:var(--red)} svg text.t-white{fill:var(--red-ink)}
+svg text.t-mono{font-family:var(--mono)} svg text.t-disp{font-family:var(--display)}
+.qr rect{fill:var(--ink)}
+
+.how{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 18px 8px}
+.how-cap{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 20px;font-size:15px;color:var(--mute);padding:6px 4px 8px}
+.how-cap b{color:var(--ink)}
+
+.need{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.need li{background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:.35em .95em;font-size:15px}
+.need li b{color:var(--red);font-family:var(--mono);font-weight:500;margin-right:.4em}
+
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.st{min-width:0;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:.1rem .8rem;align-items:start}
+.st::before{content:counter(s);grid-row:span 2;font:400 18px/2.4rem var(--display);width:2.4rem;height:2.4rem;text-align:center;border-radius:50%;background:var(--red);color:var(--red-ink)}
+.st h3{font:700 19px/1.4 var(--body);margin:.35rem 0 .1rem}
+.st .tx{grid-column:2;font-size:15.5px}
+.st .tx p{margin:.25rem 0}
+.st .small{font-size:13.5px;color:var(--mute)}
+.pic{min-width:0}
+@media (max-width:620px){
+  ol.steps>li{grid-template-columns:minmax(0,1fr);padding:16px}
+  .pic{max-width:300px;width:100%;margin:0 auto}
+}
+.prep{font-size:15px;color:var(--mute);margin-top:.8rem}
+.prep summary{cursor:pointer;color:var(--ink);font-weight:500}
+.prep summary:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+.prep ul{margin:.4rem 0;padding-left:1.3em}
+
+.trips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.trip{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
+.trip svg{width:44px}
+.trip b{display:block;font-size:15.5px;line-height:1.5}
+.trip span{display:block;font-size:14px;color:var(--mute);line-height:1.6;margin-top:.2rem}
+
+.more{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;border-top:2px solid var(--ink);padding-top:1.2rem}
+.more p{margin:0;max-width:52ch;font-size:15px;color:var(--mute)}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:700;border-radius:99px;padding:.6em 1.2em;font-size:15px}
+.btn:hover{background:var(--red);color:var(--red-ink)}
+footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <h1>HELLO</h1>
+  <p class="sub">chat · quick start</p>
+  <nav class="langs" aria-label="Language"><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart.html" hreflang="ja">日本語</a><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_easy.html" hreflang="ja">やさしい にほんご</a><a href="https://msysng.github.io/hello-translate-chat/hello_chat_quickstart_en.html" hreflang="en" aria-current="page">English</a></nav>
+  <p class="lead">Talk with people who speak other languages, using one laptop and their phones.<br>Four steps, about five minutes.</p>
+</div></header>
+
+<main class="wrap">
+
+<section>
+  <h2>How it works</h2>
+  <div class="how">
+    <svg viewBox="0 0 640 252" role="img" aria-label="A laptop connects to two phones over Wi-Fi; a Japanese message arrives in English on one phone and in Spanish on the other">
+      <!-- laptop -->
+      <rect class="s-paper" x="40" y="34" width="230" height="150" rx="12"/>
+      <rect class="s-screen" x="52" y="46" width="206" height="126" rx="4"/>
+      <rect class="s-red" x="52" y="46" width="206" height="24"/>
+      <text class="t-disp t-white" x="62" y="64" font-size="14">HELLO</text>
+      <rect class="s-red" x="132" y="86" width="114" height="34" rx="14"/>
+      <text class="t-white" x="189" y="109" font-size="15" text-anchor="middle" font-weight="700">こんにちは！</text>
+      <rect class="s-bub" x="64" y="130" width="120" height="30" rx="13"/>
+      <text x="124" y="150" font-size="13" text-anchor="middle">Nice to meet you</text>
+      <path class="s-ink" d="M20 190 H290 L276 204 H34 Z"/>
+      <text x="155" y="236" font-size="19" text-anchor="middle" font-weight="700">Laptop = translator</text>
+
+      <!-- wifi -->
+      <path class="s-dash" d="M282 110 H340"/>
+      <path class="s-dash" d="M400 110 Q420 110 438 82"/>
+      <path class="s-dash" d="M400 120 Q440 124 532 124"/>
+      <g transform="translate(370 118)">
+        <path class="s-redline" d="M-24 -12 A34 34 0 0 1 24 -12"/>
+        <path class="s-redline" d="M-15 -2 A21 21 0 0 1 15 -2"/>
+        <circle class="s-red" cx="0" cy="8" r="4.5"/>
+      </g>
+      <text class="t-mute" x="370" y="156" font-size="16" text-anchor="middle">Same Wi-Fi</text>
+
+      <!-- phone 1 -->
+      <rect class="s-paper" x="440" y="14" width="88" height="170" rx="16"/>
+      <rect class="s-screen" x="448" y="30" width="72" height="140" rx="4"/>
+      <rect class="s-bub" x="454" y="70" width="62" height="30" rx="12"/>
+      <text x="485" y="90" font-size="14" text-anchor="middle" font-weight="700">Hello!</text>
+      <text class="t-mute" x="484" y="116" font-size="10" text-anchor="middle">Aiko · translated</text>
+      <!-- phone 2 -->
+      <rect class="s-paper" x="540" y="54" width="88" height="170" rx="16"/>
+      <rect class="s-screen" x="548" y="70" width="72" height="140" rx="4"/>
+      <rect class="s-bub" x="554" y="110" width="62" height="30" rx="12"/>
+      <text x="585" y="130" font-size="14" text-anchor="middle" font-weight="700">¡Hola!</text>
+      <text class="t-mute" x="584" y="156" font-size="10" text-anchor="middle">Aiko · translated</text>
+      <text x="534" y="246" font-size="19" text-anchor="middle" font-weight="700">Phones = read &amp; write</text>
+    </svg>
+    <div class="how-cap">
+      <div>Chrome on the <b>laptop</b> translates every message into each person's language.</div>
+      <div><b>Phones</b> just scan a QR code. No app, no sign-in.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What you need</h2>
+  <ul class="need">
+    <li><b>PC</b>A laptop (Mac or Windows) with Chrome</li>
+    <li><b>Py</b>Python</li>
+    <li><b>SP</b>Everyone's phones</li>
+    <li><b>Wi</b>One Wi-Fi network for everyone</li>
+  </ul>
+  <details class="prep">
+    <summary>First time only: download the tool and install Python</summary>
+    <ul>
+      <li>On the <a href="https://github.com/MsYsng/hello-translate-chat">GitHub page</a>, click <b>Code</b> → <b>Download ZIP</b>, then unzip it.</li>
+      <li>If you don't have Python, install it from <a href="https://www.python.org/downloads/">python.org</a>. On Windows, tick "Add python.exe to PATH" in the installer.</li>
+    </ul>
+  </details>
+</section>
+
+<section>
+  <h2>Start in four steps</h2>
+  <ol class="steps">
+
+    <li>
+      <div class="st">
+        <h3>Start it</h3>
+        <div class="tx">
+          <p>Double-click the launcher in the folder. The <b>admin screen</b> opens in your browser.</p>
+          <p class="small"><code>HELLO-chat.command</code> on Mac, <code>HELLO-chat.bat</code> on Windows. If a Mac won't open it, right-click it and choose Open.</p>
+        </div>
+      </div>
+      <div class="pic">
+        <svg viewBox="0 0 250 150" role="img" aria-label="Double-clicking the launcher file">
+          <path class="s-paper" d="M70 18 H132 L156 42 V128 H70 Z"/>
+          <path class="s-line" d="M132 18 V42 H156"/>
+          <rect class="s-red" x="84" y="64" width="58" height="22" rx="4"/>
+          <text class="t-disp t-white" x="113" y="80" font-size="11" text-anchor="middle">HELLO</text>
+          <text class="t-mono" x="113" y="146" font-size="11" text-anchor="middle">HELLO-chat.command</text>
+          <path class="s-ink" d="M150 92 L150 126 L159 118 L166 133 L172 130 L165 116 L177 116 Z" stroke="var(--paper)" stroke-width="1.5"/>
+          <path class="s-redline" d="M178 84 L188 74 M184 96 L198 94 M168 78 L170 64"/>
+          <text class="t-red" x="206" y="72" font-size="16" font-weight="700">×2</text>
+        </svg>
+      </div>
+    </li>
+
+    <li>
+      <div class="st">
+        <h3>Join on the laptop</h3>
+        <div class="tx">
+          <p>On the admin screen, click <span class="ui">Open the chat</span>. Enter your name, pick your language and click <span class="ui">Start chatting</span>.</p>
+          <p class="small">This laptop window does the translating. Keep it open while you talk.</p>
+        </div>
+      </div>
+      <div class="pic">
+        <svg viewBox="0 0 250 150" role="img" aria-label="Entering a name and language, then clicking Start chatting">
+          <rect class="s-paper" x="10" y="8" width="230" height="134" rx="10"/>
+          <rect class="s-screen" x="20" y="18" width="210" height="18" rx="9"/>
+          <text class="t-mono t-mute" x="32" y="31" font-size="10">localhost:8765</text>
+          <text class="t-mute" x="30" y="56" font-size="10">Name</text>
+          <rect class="s-paper" x="30" y="60" width="190" height="22" rx="6"/>
+          <text x="40" y="75" font-size="12">Sam</text>
+          <text class="t-mute" x="30" y="96" font-size="10">Language</text>
+          <rect class="s-paper" x="30" y="100" width="92" height="22" rx="6"/>
+          <text x="40" y="115" font-size="12">English ▾</text>
+          <rect class="s-red" x="128" y="100" width="100" height="22" rx="11"/>
+          <text class="t-white" x="178" y="115" font-size="10.5" text-anchor="middle" font-weight="700">Start chatting</text>
+          <path class="s-ink" d="M196 112 L196 140 L203 134 L209 146 L214 144 L208 132 L218 132 Z" stroke="var(--paper)" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </li>
+
+    <li>
+      <div class="st">
+        <h3>Invite others</h3>
+        <div class="tx">
+          <p>Have others scan the <b>QR code</b> on the screen with their phone camera. They enter a name and language, and they're in.</p>
+          <p class="small">Page won't open? Check the phone is on the <b>same</b> Wi-Fi network as the laptop.</p>
+        </div>
+      </div>
+      <div class="pic">
+        <svg viewBox="0 0 250 150" role="img" aria-label="A phone camera scanning the QR code on the laptop">
+          <rect class="s-paper" x="8" y="14" width="136" height="104" rx="8"/>
+          <rect class="s-screen" x="16" y="22" width="120" height="88" rx="3"/>
+          <g class="qr" transform="translate(42 28) scale(.76)"><rect x="0.0" y="0.0" width="5.1" height="5.1"/><rect x="4.8" y="0.0" width="5.1" height="5.1"/><rect x="9.5" y="0.0" width="5.1" height="5.1"/><rect x="14.3" y="0.0" width="5.1" height="5.1"/><rect x="19.0" y="0.0" width="5.1" height="5.1"/><rect x="23.8" y="0.0" width="5.1" height="5.1"/><rect x="28.6" y="0.0" width="5.1" height="5.1"/><rect x="38.1" y="0.0" width="5.1" height="5.1"/><rect x="42.9" y="0.0" width="5.1" height="5.1"/><rect x="52.4" y="0.0" width="5.1" height="5.1"/><rect x="66.7" y="0.0" width="5.1" height="5.1"/><rect x="71.4" y="0.0" width="5.1" height="5.1"/><rect x="76.2" y="0.0" width="5.1" height="5.1"/><rect x="81.0" y="0.0" width="5.1" height="5.1"/><rect x="85.7" y="0.0" width="5.1" height="5.1"/><rect x="90.5" y="0.0" width="5.1" height="5.1"/><rect x="95.2" y="0.0" width="5.1" height="5.1"/><rect x="0.0" y="4.8" width="5.1" height="5.1"/><rect x="28.6" y="4.8" width="5.1" height="5.1"/><rect x="38.1" y="4.8" width="5.1" height="5.1"/><rect x="42.9" y="4.8" width="5.1" height="5.1"/><rect x="52.4" y="4.8" width="5.1" height="5.1"/><rect x="57.1" y="4.8" width="5.1" height="5.1"/><rect x="66.7" y="4.8" width="5.1" height="5.1"/><rect x="95.2" y="4.8" width="5.1" height="5.1"/><rect x="0.0" y="9.5" width="5.1" height="5.1"/><rect x="9.5" y="9.5" width="5.1" height="5.1"/><rect x="14.3" y="9.5" width="5.1" height="5.1"/><rect x="19.0" y="9.5" width="5.1" height="5.1"/><rect x="28.6" y="9.5" width="5.1" height="5.1"/><rect x="38.1" y="9.5" width="5.1" height="5.1"/><rect x="42.9" y="9.5" width="5.1" height="5.1"/><rect x="47.6" y="9.5" width="5.1" height="5.1"/><rect x="57.1" y="9.5" width="5.1" height="5.1"/><rect x="66.7" y="9.5" width="5.1" height="5.1"/><rect x="76.2" y="9.5" width="5.1" height="5.1"/><rect x="81.0" y="9.5" width="5.1" height="5.1"/><rect x="85.7" y="9.5" width="5.1" height="5.1"/><rect x="95.2" y="9.5" width="5.1" height="5.1"/><rect x="0.0" y="14.3" width="5.1" height="5.1"/><rect x="9.5" y="14.3" width="5.1" height="5.1"/><rect x="14.3" y="14.3" width="5.1" height="5.1"/><rect x="19.0" y="14.3" width="5.1" height="5.1"/><rect x="28.6" y="14.3" width="5.1" height="5.1"/><rect x="38.1" y="14.3" width="5.1" height="5.1"/><rect x="57.1" y="14.3" width="5.1" height="5.1"/><rect x="66.7" y="14.3" width="5.1" height="5.1"/><rect x="76.2" y="14.3" width="5.1" height="5.1"/><rect x="81.0" y="14.3" width="5.1" height="5.1"/><rect x="85.7" y="14.3" width="5.1" height="5.1"/><rect x="95.2" y="14.3" width="5.1" height="5.1"/><rect x="0.0" y="19.0" width="5.1" height="5.1"/><rect x="9.5" y="19.0" width="5.1" height="5.1"/><rect x="14.3" y="19.0" width="5.1" height="5.1"/><rect x="19.0" y="19.0" width="5.1" height="5.1"/><rect x="28.6" y="19.0" width="5.1" height="5.1"/><rect x="42.9" y="19.0" width="5.1" height="5.1"/><rect x="52.4" y="19.0" width="5.1" height="5.1"/><rect x="57.1" y="19.0" width="5.1" height="5.1"/><rect x="66.7" y="19.0" width="5.1" height="5.1"/><rect x="76.2" y="19.0" width="5.1" height="5.1"/><rect x="81.0" y="19.0" width="5.1" height="5.1"/><rect x="85.7" y="19.0" width="5.1" height="5.1"/><rect x="95.2" y="19.0" width="5.1" height="5.1"/><rect x="0.0" y="23.8" width="5.1" height="5.1"/><rect x="28.6" y="23.8" width="5.1" height="5.1"/><rect x="38.1" y="23.8" width="5.1" height="5.1"/><rect x="42.9" y="23.8" width="5.1" height="5.1"/><rect x="52.4" y="23.8" width="5.1" height="5.1"/><rect x="66.7" y="23.8" width="5.1" height="5.1"/><rect x="95.2" y="23.8" width="5.1" height="5.1"/><rect x="0.0" y="28.6" width="5.1" height="5.1"/><rect x="4.8" y="28.6" width="5.1" height="5.1"/><rect x="9.5" y="28.6" width="5.1" height="5.1"/><rect x="14.3" y="28.6" width="5.1" height="5.1"/><rect x="19.0" y="28.6" width="5.1" height="5.1"/><rect x="23.8" y="28.6" width="5.1" height="5.1"/><rect x="28.6" y="28.6" width="5.1" height="5.1"/><rect x="42.9" y="28.6" width="5.1" height="5.1"/><rect x="52.4" y="28.6" width="5.1" height="5.1"/><rect x="57.1" y="28.6" width="5.1" height="5.1"/><rect x="66.7" y="28.6" width="5.1" height="5.1"/><rect x="71.4" y="28.6" width="5.1" height="5.1"/><rect x="76.2" y="28.6" width="5.1" height="5.1"/><rect x="81.0" y="28.6" width="5.1" height="5.1"/><rect x="85.7" y="28.6" width="5.1" height="5.1"/><rect x="90.5" y="28.6" width="5.1" height="5.1"/><rect x="95.2" y="28.6" width="5.1" height="5.1"/><rect x="38.1" y="33.3" width="5.1" height="5.1"/><rect x="47.6" y="33.3" width="5.1" height="5.1"/><rect x="52.4" y="33.3" width="5.1" height="5.1"/><rect x="0.0" y="38.1" width="5.1" height="5.1"/><rect x="4.8" y="38.1" width="5.1" height="5.1"/><rect x="19.0" y="38.1" width="5.1" height="5.1"/><rect x="42.9" y="38.1" width="5.1" height="5.1"/><rect x="52.4" y="38.1" width="5.1" height="5.1"/><rect x="57.1" y="38.1" width="5.1" height="5.1"/><rect x="66.7" y="38.1" width="5.1" height="5.1"/><rect x="76.2" y="38.1" width="5.1" height="5.1"/><rect x="0.0" y="42.9" width="5.1" height="5.1"/><rect x="19.0" y="42.9" width="5.1" height="5.1"/><rect x="33.3" y="42.9" width="5.1" height="5.1"/><rect x="42.9" y="42.9" width="5.1" height="5.1"/><rect x="66.7" y="42.9" width="5.1" height="5.1"/><rect x="71.4" y="42.9" width="5.1" height="5.1"/><rect x="81.0" y="42.9" width="5.1" height="5.1"/><rect x="85.7" y="42.9" width="5.1" height="5.1"/><rect x="90.5" y="42.9" width="5.1" height="5.1"/><rect x="95.2" y="42.9" width="5.1" height="5.1"/><rect x="0.0" y="47.6" width="5.1" height="5.1"/><rect x="9.5" y="47.6" width="5.1" height="5.1"/><rect x="14.3" y="47.6" width="5.1" height="5.1"/><rect x="19.0" y="47.6" width="5.1" height="5.1"/><rect x="28.6" y="47.6" width="5.1" height="5.1"/><rect x="33.3" y="47.6" width="5.1" height="5.1"/><rect x="57.1" y="47.6" width="5.1" height="5.1"/><rect x="61.9" y="47.6" width="5.1" height="5.1"/><rect x="66.7" y="47.6" width="5.1" height="5.1"/><rect x="81.0" y="47.6" width="5.1" height="5.1"/><rect x="85.7" y="47.6" width="5.1" height="5.1"/><rect x="90.5" y="47.6" width="5.1" height="5.1"/><rect x="95.2" y="47.6" width="5.1" height="5.1"/><rect x="9.5" y="52.4" width="5.1" height="5.1"/><rect x="14.3" y="52.4" width="5.1" height="5.1"/><rect x="19.0" y="52.4" width="5.1" height="5.1"/><rect x="23.8" y="52.4" width="5.1" height="5.1"/><rect x="57.1" y="52.4" width="5.1" height="5.1"/><rect x="81.0" y="52.4" width="5.1" height="5.1"/><rect x="85.7" y="52.4" width="5.1" height="5.1"/><rect x="90.5" y="52.4" width="5.1" height="5.1"/><rect x="0.0" y="57.1" width="5.1" height="5.1"/><rect x="4.8" y="57.1" width="5.1" height="5.1"/><rect x="9.5" y="57.1" width="5.1" height="5.1"/><rect x="14.3" y="57.1" width="5.1" height="5.1"/><rect x="19.0" y="57.1" width="5.1" height="5.1"/><rect x="23.8" y="57.1" width="5.1" height="5.1"/><rect x="28.6" y="57.1" width="5.1" height="5.1"/><rect x="33.3" y="57.1" width="5.1" height="5.1"/><rect x="38.1" y="57.1" width="5.1" height="5.1"/><rect x="42.9" y="57.1" width="5.1" height="5.1"/><rect x="47.6" y="57.1" width="5.1" height="5.1"/><rect x="61.9" y="57.1" width="5.1" height="5.1"/><rect x="66.7" y="57.1" width="5.1" height="5.1"/><rect x="71.4" y="57.1" width="5.1" height="5.1"/><rect x="76.2" y="57.1" width="5.1" height="5.1"/><rect x="81.0" y="57.1" width="5.1" height="5.1"/><rect x="95.2" y="57.1" width="5.1" height="5.1"/><rect x="42.9" y="61.9" width="5.1" height="5.1"/><rect x="47.6" y="61.9" width="5.1" height="5.1"/><rect x="52.4" y="61.9" width="5.1" height="5.1"/><rect x="57.1" y="61.9" width="5.1" height="5.1"/><rect x="66.7" y="61.9" width="5.1" height="5.1"/><rect x="71.4" y="61.9" width="5.1" height="5.1"/><rect x="85.7" y="61.9" width="5.1" height="5.1"/><rect x="95.2" y="61.9" width="5.1" height="5.1"/><rect x="0.0" y="66.7" width="5.1" height="5.1"/><rect x="4.8" y="66.7" width="5.1" height="5.1"/><rect x="9.5" y="66.7" width="5.1" height="5.1"/><rect x="14.3" y="66.7" width="5.1" height="5.1"/><rect x="19.0" y="66.7" width="5.1" height="5.1"/><rect x="23.8" y="66.7" width="5.1" height="5.1"/><rect x="28.6" y="66.7" width="5.1" height="5.1"/><rect x="57.1" y="66.7" width="5.1" height="5.1"/><rect x="61.9" y="66.7" width="5.1" height="5.1"/><rect x="66.7" y="66.7" width="5.1" height="5.1"/><rect x="85.7" y="66.7" width="5.1" height="5.1"/><rect x="90.5" y="66.7" width="5.1" height="5.1"/><rect x="0.0" y="71.4" width="5.1" height="5.1"/><rect x="28.6" y="71.4" width="5.1" height="5.1"/><rect x="61.9" y="71.4" width="5.1" height="5.1"/><rect x="71.4" y="71.4" width="5.1" height="5.1"/><rect x="76.2" y="71.4" width="5.1" height="5.1"/><rect x="81.0" y="71.4" width="5.1" height="5.1"/><rect x="85.7" y="71.4" width="5.1" height="5.1"/><rect x="90.5" y="71.4" width="5.1" height="5.1"/><rect x="0.0" y="76.2" width="5.1" height="5.1"/><rect x="9.5" y="76.2" width="5.1" height="5.1"/><rect x="14.3" y="76.2" width="5.1" height="5.1"/><rect x="19.0" y="76.2" width="5.1" height="5.1"/><rect x="28.6" y="76.2" width="5.1" height="5.1"/><rect x="42.9" y="76.2" width="5.1" height="5.1"/><rect x="61.9" y="76.2" width="5.1" height="5.1"/><rect x="66.7" y="76.2" width="5.1" height="5.1"/><rect x="71.4" y="76.2" width="5.1" height="5.1"/><rect x="76.2" y="76.2" width="5.1" height="5.1"/><rect x="81.0" y="76.2" width="5.1" height="5.1"/><rect x="0.0" y="81.0" width="5.1" height="5.1"/><rect x="9.5" y="81.0" width="5.1" height="5.1"/><rect x="14.3" y="81.0" width="5.1" height="5.1"/><rect x="19.0" y="81.0" width="5.1" height="5.1"/><rect x="28.6" y="81.0" width="5.1" height="5.1"/><rect x="38.1" y="81.0" width="5.1" height="5.1"/><rect x="52.4" y="81.0" width="5.1" height="5.1"/><rect x="76.2" y="81.0" width="5.1" height="5.1"/><rect x="81.0" y="81.0" width="5.1" height="5.1"/><rect x="90.5" y="81.0" width="5.1" height="5.1"/><rect x="0.0" y="85.7" width="5.1" height="5.1"/><rect x="9.5" y="85.7" width="5.1" height="5.1"/><rect x="14.3" y="85.7" width="5.1" height="5.1"/><rect x="19.0" y="85.7" width="5.1" height="5.1"/><rect x="28.6" y="85.7" width="5.1" height="5.1"/><rect x="42.9" y="85.7" width="5.1" height="5.1"/><rect x="47.6" y="85.7" width="5.1" height="5.1"/><rect x="61.9" y="85.7" width="5.1" height="5.1"/><rect x="66.7" y="85.7" width="5.1" height="5.1"/><rect x="71.4" y="85.7" width="5.1" height="5.1"/><rect x="85.7" y="85.7" width="5.1" height="5.1"/><rect x="0.0" y="90.5" width="5.1" height="5.1"/><rect x="28.6" y="90.5" width="5.1" height="5.1"/><rect x="42.9" y="90.5" width="5.1" height="5.1"/><rect x="52.4" y="90.5" width="5.1" height="5.1"/><rect x="57.1" y="90.5" width="5.1" height="5.1"/><rect x="81.0" y="90.5" width="5.1" height="5.1"/><rect x="95.2" y="90.5" width="5.1" height="5.1"/><rect x="0.0" y="95.2" width="5.1" height="5.1"/><rect x="4.8" y="95.2" width="5.1" height="5.1"/><rect x="9.5" y="95.2" width="5.1" height="5.1"/><rect x="14.3" y="95.2" width="5.1" height="5.1"/><rect x="19.0" y="95.2" width="5.1" height="5.1"/><rect x="23.8" y="95.2" width="5.1" height="5.1"/><rect x="28.6" y="95.2" width="5.1" height="5.1"/><rect x="38.1" y="95.2" width="5.1" height="5.1"/><rect x="42.9" y="95.2" width="5.1" height="5.1"/><rect x="47.6" y="95.2" width="5.1" height="5.1"/><rect x="57.1" y="95.2" width="5.1" height="5.1"/><rect x="61.9" y="95.2" width="5.1" height="5.1"/><rect x="66.7" y="95.2" width="5.1" height="5.1"/><rect x="76.2" y="95.2" width="5.1" height="5.1"/><rect x="81.0" y="95.2" width="5.1" height="5.1"/><rect x="95.2" y="95.2" width="5.1" height="5.1"/></g>
+          <path class="s-ink" d="M0 122 H152 L144 132 H8 Z"/>
+          <path class="s-dash" d="M120 66 L176 66"/>
+          <rect class="s-paper" x="176" y="18" width="62" height="120" rx="12"/>
+          <rect class="s-screen" x="182" y="30" width="50" height="96" rx="3"/>
+          <path class="s-redline" d="M190 58 V50 H198 M216 50 H224 V58 M224 90 V98 H216 M198 98 H190 V90"/>
+          <text class="t-red" x="207" y="79" font-size="10" text-anchor="middle" font-weight="700">QR</text>
+        </svg>
+      </div>
+    </li>
+
+    <li>
+      <div class="st">
+        <h3>Talk</h3>
+        <div class="tx">
+          <p>Write in your language. Everyone else reads it in theirs.</p>
+          <p>If a <span class="ui">Download translation model</span> button appears on the laptop, click it. It's needed once for each language pair, the first time only.</p>
+        </div>
+      </div>
+      <div class="pic">
+        <svg viewBox="0 0 250 150" role="img" aria-label="A Japanese message shown in English in the chat">
+          <rect class="s-bub" x="8" y="10" width="160" height="50" rx="16"/>
+          <text x="22" y="32" font-size="13" font-weight="700">Nice to meet you!</text>
+          <text class="t-mute" x="22" y="50" font-size="11">はじめまして！</text>
+          <text class="t-mute" x="10" y="74" font-size="10">Aiko · 日本語</text>
+          <rect class="s-red" x="120" y="84" width="122" height="34" rx="16"/>
+          <text class="t-white" x="181" y="106" font-size="13" text-anchor="middle" font-weight="700">Hi, I'm Sam!</text>
+          <text class="t-mute" x="240" y="134" font-size="10" text-anchor="end">you · English</text>
+        </svg>
+      </div>
+    </li>
+  </ol>
+  <p class="prep">When you're done, click <span class="ui">Stop server</span> on the admin screen. The whole conversation is deleted.</p>
+</section>
+
+<section>
+  <h2>Three common snags</h2>
+  <div class="trips">
+    <div class="trip">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="s-paper" cx="22" cy="22" r="20"/><path class="s-redline" d="M10 20 A17 17 0 0 1 34 20 M15 26 A10 10 0 0 1 29 26"/><circle class="s-red" cx="22" cy="31" r="2.6"/></svg>
+      <div><b>A phone can't open the page</b><span>Check its Wi-Fi network name matches the laptop's exactly. On guest Wi-Fi, have everyone join a phone hotspot instead.</span></div>
+    </div>
+    <div class="trip">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="s-paper" cx="22" cy="22" r="20"/><rect class="s-inkline" x="12" y="14" width="20" height="13" rx="2"/><path class="s-inkline" d="M9 31 H35"/></svg>
+      <div><b>Translation stopped</b><span>Closing the chat window on the laptop, or closing its lid, stops translation for everyone.</span></div>
+    </div>
+    <div class="trip">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="s-paper" cx="22" cy="22" r="20"/><path class="s-redline" d="M22 12 V27 M16 22 L22 28 L28 22 M14 32 H30"/></svg>
+      <div><b>The button keeps coming back</b><span>Each click downloads one language pair. Keep clicking until it goes away.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="more">
+  <p>Preparing before an event, translating with Claude, a card to show participants and troubleshooting are in the full guide (in Japanese) and the README.</p>
+  <a class="btn" href="https://msysng.github.io/hello-translate-chat/hello_chat_guide.html">Full guide (Japanese) →</a>
+</section>
+
+</main>
+<footer class="wrap">Quick start for HELLO chat (hello_chat.py). <a href="https://github.com/MsYsng/hello-translate-chat#english">README in English</a></footer>
+</body>
+</html>
