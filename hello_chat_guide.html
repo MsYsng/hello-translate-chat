@@ -135,6 +135,16 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 <section>
   <h2><span class="who">主催者</span>Claude で翻訳する（オプション）</h2>
   <p>Anthropic の API キーがあれば、Chrome の代わりに Claude で翻訳できます。直前の会話を踏まえた自然な訳になり、翻訳モデルのダウンロード（上の「1組1クリック」）が要りません。</p>
+  <h3>APIキーを取る（初回だけ）</h3>
+  <p>APIキーは Anthropic の開発者向けサイト <b>Claude Console</b> で作ります。Claude.ai の有料プランとは別のサービスで、利用料も別に支払います。</p>
+  <ol class="steps">
+    <li><div><a href="https://platform.claude.com/">platform.claude.com</a> を開き、Google アカウントかメールアドレスでサインイン（またはアカウント作成）します。</div></li>
+    <li><div><a href="https://platform.claude.com/settings/billing">Billing</a> の <span class="ui">Buy credits</span> でクレジットを購入します。API は前払い制で、残高がないと動きません。イベント1回なら少額で足ります。クレジットは返金されず、1年で失効します。</div></li>
+    <li><div><a href="https://platform.claude.com/settings/keys">API keys</a> で <span class="ui">Create key</span> を押し、名前（例: hello-chat）を付けて作成します。</div></li>
+    <li><div>表示されたキー（<code>sk-ant-</code> で始まる）をコピーします。<b>表示されるのは作成時の1回だけ</b>なので、すぐ下の手順で管理画面に貼り付けます。なくしたら作り直します。</div></li>
+  </ol>
+  <div class="note tip"><b>安心のために:</b> <a href="https://platform.claude.com/settings/spend-limits">Spend limits</a> で月の上限額を決めておくと使いすぎを防げます。キーはパスワードと同じなので、チャットやメール、GitHub に貼らないでください。画面の文言が変わっていたら、公式の<a href="https://platform.claude.com/docs/en/get-api-key">APIキーの取得方法</a>を見てください。</div>
+  <h3>設定する</h3>
   <ol class="steps">
     <li><div>SDK を入れます（初回だけ）。<pre>pip install anthropic</pre></div></li>
     <li><div>管理画面の「翻訳」で <b>Claude</b> を選び、APIキーを入力して <span class="ui">保存して確認</span> を押します。キーが使えるかその場で確認されます。「このPCに保存する」にチェックしておくと、次回から入力は不要です（キーはこのフォルダの外に、あなただけが読める形で保存されます）。</div></li>
@@ -145,7 +155,7 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
     <tbody>
       <tr><td>事前準備</td><td>言語ペアごとにダウンロード</td><td>不要</td></tr>
       <tr><td>インターネット</td><td>準備後は不要</td><td>必要</td></tr>
-      <tr><td>料金</td><td>無料</td><td>API の利用料（1,000メッセージで Opus 5.5 は約7ドル、Haiku 5.5 は約0.2ドルが目安）</td></tr>
+      <tr><td>料金</td><td>無料</td><td>API の利用料（1,000メッセージで Opus 5.5 は約7〜9ドル、Haiku 5.5 は約0.2〜0.3ドルが目安）</td></tr>
       <tr><td>会話の送信先</td><td>ラップトップの中だけ</td><td>Anthropic の API</td></tr>
     </tbody>
   </table></div>

@@ -74,6 +74,21 @@ Anthropic の API キーがあれば、Chrome の代わりに Claude で翻訳�
 | 料金 | 無料 | API の利用料（下の目安） |
 | 会話の送信先 | ラップトップの中だけ | Anthropic の API |
 
+### API キーの取り方
+
+API キーは Anthropic の開発者向けサイト **Claude Console**（[platform.claude.com](https://platform.claude.com/)）で作ります。Claude.ai の有料プラン（Pro など）とは別のサービスで、API の利用料は別に支払います。
+
+1. [platform.claude.com](https://platform.claude.com/) を開き、Google アカウントかメールアドレスでアカウントを作るかサインインします。
+2. **クレジットを購入します。** API は前払い制で、残高がないと使えません。[Billing](https://platform.claude.com/settings/billing) の「Buy credits」から金額を入れて購入します。イベント1回なら少額で足ります（下の「トークン消費量と料金の目安」を参照）。購入したクレジットは返金されず、1年で失効します。
+3. [API keys](https://platform.claude.com/settings/keys) で **Create key** を押し、名前（例: `hello-chat`）を付けて作成します。
+4. 表示されたキー（`sk-ant-` で始まる文字列）をコピーし、そのまま管理画面に貼り付けます。**キーが表示されるのは作成時の1回だけです。** なくしたら新しく作り直します。
+
+- 念のため [Spend limits](https://platform.claude.com/settings/spend-limits) で月の上限額を決めておくと、使いすぎを防げます。
+- キーはパスワードと同じです。チャットやメール、GitHub に貼らないでください。漏れたときは API keys のページで削除（無効化）します。
+- 画面の文言や手順は変わることがあります。詳しくは公式の [API キーの取得方法](https://platform.claude.com/docs/en/get-api-key) を見てください。
+
+### 設定する
+
 1. SDK を入れます（Python 3.8 以上）。
 
    ```bash
@@ -112,7 +127,7 @@ Anthropic の API キーがあれば、Chrome の代わりに Claude で翻訳�
 
 - **新しい言語の人が参加すると、直前の最大50件を訳し直します。** あとから来た人も会話を読めるようにするためです。その分の料金がかかります（Opus 5.5 で50件あたり約 0.4ドル）。
 - 長いメッセージや言語の多い会話では、上の目安より多くなります。
-- これは見積もりです。実際の使用量と料金は [Anthropic Console](https://console.anthropic.com/) の Usage で確認できます。心配な場合は、Console で利用上限（spend limit）を設定しておくと安心です。
+- これは見積もりです。実際の使用量と料金は [Claude Console](https://platform.claude.com/usage) の「Usage」 で確認できます。心配な場合は、Console の [Spend limits](https://platform.claude.com/settings/spend-limits) で月の利用上限を設定しておくと安心です。
 
 ## プライバシー
 
@@ -178,6 +193,8 @@ The admin screen (`http://localhost:8765/admin`) opens only on the laptop runnin
 Keep the `localhost` tab open and the laptop awake while chatting, and open only one `localhost` tab.
 
 ### Optional: translate with Claude
+
+Get an API key from the Claude Console at [platform.claude.com](https://platform.claude.com/) (separate from Claude.ai subscriptions): sign in, buy prepaid credits on the [Billing](https://platform.claude.com/settings/billing) page, then click **Create key** on the [API keys](https://platform.claude.com/settings/keys) page and copy the key (it starts with `sk-ant-` and is shown only once). Consider setting a monthly cap under [Spend limits](https://platform.claude.com/settings/spend-limits). See the official [get an API key](https://platform.claude.com/docs/en/get-api-key) page for details.
 
 Install the SDK with `pip install anthropic`, start the server, then on the admin screen choose **Claude**, enter your API key and click **Save and check**. The key is checked right away (no tokens used). With "Save on this laptop" ticked, it is stored in `~/.config/hello-chat/config.json`, readable only by you, never in this folder; otherwise it is forgotten when the server stops. An `ANTHROPIC_API_KEY` environment variable takes precedence. Claude translates each message into every participant's language in one request, using the last few messages as context. It needs internet, costs API usage: each message is one request of about 700–900 input and 150–300 output tokens, so roughly $7–9 per 1,000 messages with Claude Opus 5.5 or $0.20–0.30 with Claude Haiku 5.5 (when someone joins with a new language, up to the last 50 messages are translated again for them; check actual usage and set a spend limit in the Anthropic Console), and sends messages to Anthropic; participants see a notice saying so. If Claude can't be reached, the laptop's Chrome takes over automatically and Claude is retried every 60 seconds, so keep the `localhost` tab open. Change the model on the admin screen (or with `HELLO_CLAUDE_MODEL`), or start with `--no-claude` to turn it off. Never commit your API key.
 
