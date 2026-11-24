@@ -3,6 +3,8 @@
 初対面の外国語話者と、ログインなしで翻訳チャットするためのツールです。
 各自が自分の言語で書くと、相手には相手の言語で届きます。
 
+📖 **[使い方ガイド（主催者の準備・参加者向けカード・困ったとき）](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
+
 *English follows below.*
 
 - **翻訳はラップトップ1台が担当**: 標準では Chrome / Edge に内蔵の [Translator API](https://developer.chrome.com/docs/ai/translator-api) で、端末内で翻訳します。API キーやアカウントは不要で、翻訳する文章は外部のサービスに送られません。
@@ -143,6 +145,8 @@ Anthropic の API キーがあれば、Chrome の代わりに Claude で翻訳�
 ## English
 
 HELLO chat is a login-free, translated group chat for meeting people who speak other languages. Everyone writes in their own language and reads everyone else's messages in theirs.
+
+📖 **[Illustrated guide (Japanese, with an English participant card)](https://msysng.github.io/hello-translate-chat/hello_chat_guide.html)**
 
 - **One laptop does the translating.** By default it uses the [Translator API](https://developer.chrome.com/docs/ai/translator-api) built into desktop Chrome and Edge, which runs on the device. No API key or account, and messages are not sent to an outside translation service.
 - **Optional: translate with Claude.** With an Anthropic API key, the server translates with Claude instead: more natural, context-aware translations and no model downloads.
