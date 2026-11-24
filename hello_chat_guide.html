@@ -70,7 +70,7 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 <section>
   <h2>しくみ</h2>
   <div class="facts">
-    <div class="fact"><b>ラップトップ1台が翻訳役</b><span>Chrome / Edge の端末内翻訳で全員分を訳します。翻訳内容は外部に送られません。</span></div>
+    <div class="fact"><b>ラップトップ1台が翻訳役</b><span>標準では Chrome / Edge の端末内翻訳で全員分を訳し、翻訳内容は外部に送られません。API キーがあれば Claude で訳すこともできます。</span></div>
     <div class="fact"><b>参加者はスマホで開くだけ</b><span>アプリもアカウントも不要。同じWi-FiでURLかQRコードを開きます。</span></div>
     <div class="fact"><b>3人以上・多言語もOK</b><span>参加者全員の言語に訳して届けます。20言語から選べます。</span></div>
   </div>
@@ -109,12 +109,13 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 
   <h3>当日の流れ</h3>
   <ol class="steps">
-    <li><div><code>python3 hello_chat.py</code> でサーバーを起動します。初回に macOS が「受信接続を許可しますか？」と聞いてきたら <b>許可</b> を選びます。</div></li>
-    <li><div>Chrome で <code>http://localhost:8765</code> を開き、名前と言語を入れて参加します。名前画面の下に、参加者用のURLとQRコードが出ます。</div></li>
+    <li><div>起動用ファイルをダブルクリックします（Mac は <code>HELLO-chat.command</code>、Windows は <code>HELLO-chat.bat</code>）。ブラウザで管理画面が開きます。Mac で初回に開けないときは、右クリック →「開く」を選びます。macOS が「受信接続を許可しますか？」と聞いてきたら <b>許可</b> を選びます。</div></li>
+    <li><div>管理画面の <span class="ui">チャット画面を開く</span> から Chrome でチャット画面を開き、名前と言語を入れて参加します。管理画面とチャット画面に、参加者用のURLとQRコードが出ます。</div></li>
     <li><div>相手にQRコードを読んでもらうか、URLを伝えます（下の「参加者向けカード」を見せてもOK）。</div></li>
     <li><div>新しい言語の人が入ってきて <span class="ui">翻訳モデルをダウンロード</span> ボタンが出たら押します。ボタンの下に進み具合（%）が出ます。その間、相手のスマホには「翻訳役のPCで翻訳データを準備しています…」と表示されます。</div></li>
-    <li><div>終わったらターミナルで <kbd>Ctrl</kbd>+<kbd>C</kbd> を押して止めます。会話はその時点ですべて消えます。</div></li>
+    <li><div>終わったら、管理画面の <span class="ui">サーバーを終了</span> を押します。会話はその時点ですべて消えます。サーバーを止めずに会話だけリセットしたいときは <span class="ui">チャットを終了</span> → <span class="ui">チャットを開始</span> を使います。</div></li>
   </ol>
+  <div class="note tip"><b>管理画面について:</b> <code>http://localhost:8765/admin</code> は、サーバーを動かしているラップトップからだけ開けます。参加者のスマホからは開けないので、APIキーや操作ボタンを触られる心配はありません。</div>
 
   <div class="note"><b>会話中は守ってください:</b>
     <ul>
@@ -127,13 +128,33 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
 </section>
 
 <section>
+  <h2><span class="who">主催者</span>Claude で翻訳する（オプション）</h2>
+  <p>Anthropic の API キーがあれば、Chrome の代わりに Claude で翻訳できます。直前の会話を踏まえた自然な訳になり、翻訳モデルのダウンロード（上の「1組1クリック」）が要りません。</p>
+  <ol class="steps">
+    <li><div>SDK を入れます（初回だけ）。<pre>pip install anthropic</pre></div></li>
+    <li><div>管理画面の「翻訳」で <b>Claude</b> を選び、APIキーを入力して <span class="ui">保存して確認</span> を押します。キーが使えるかその場で確認されます。「このPCに保存する」にチェックしておくと、次回から入力は不要です（キーはこのフォルダの外に、あなただけが読める形で保存されます）。</div></li>
+    <li><div>あとは「当日の流れ」と同じです。ラップトップの Chrome でも <code>localhost</code> のタブを開いておくと、Claude に接続できないときに自動で代わりに翻訳します。</div></li>
+  </ol>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Chrome（標準）</th><th>Claude（オプション）</th></tr></thead>
+    <tbody>
+      <tr><td>事前準備</td><td>言語ペアごとにダウンロード</td><td>不要</td></tr>
+      <tr><td>インターネット</td><td>準備後は不要</td><td>必要</td></tr>
+      <tr><td>料金</td><td>無料</td><td>API の利用料（1,000メッセージで Opus 5.5 は約7ドル、Haiku 5.5 は約0.2ドルが目安）</td></tr>
+      <tr><td>会話の送信先</td><td>ラップトップの中だけ</td><td>Anthropic の API</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>参加者への説明:</b> Claude で翻訳するときは、名前入力画面とチャットの上部に「翻訳: Claude」と、メッセージが Anthropic に送られることが表示されます。気にする人がいる場合は、管理画面で翻訳を <b>Chrome</b> に切り替えると、端末内翻訳だけで動きます。</div>
+</section>
+
+<section>
   <h2><span class="who">参加者</span>参加者向けカード</h2>
   <p>相手に見せる・印刷して置く用です。Wi-Fi名とURLは当日のものを書き入れてください。</p>
   <div class="card">
     <div class="top"><b>HELLO</b><span>my name is / はじめまして</span></div>
     <ol class="steps">
-      <li><div>Wi-Fi <span class="fill">&nbsp;</span> につなぐ
-        <span class="en">Connect to this Wi-Fi.</span></div></li>
+      <li><div>Wi-Fi <span class="fill">&nbsp;</span> につなぐ（名前が完全に同じか確認）
+        <span class="en">Connect to this Wi-Fi (check the name matches exactly).</span></div></li>
       <li><div>QRコードを読むか、このURLを開く <span class="fill">http://</span>
         <span class="en">Scan the QR code or open this URL in your browser. No app or account needed.</span></div></li>
       <li><div>名前を入れて、自分の言語を選び、<b>Start chatting</b>
@@ -151,7 +172,7 @@ footer{color:var(--mute);font-size:13px;padding-bottom:2rem}
   <div class="tbl"><table>
     <thead><tr><th>こんなとき</th><th>確認すること</th></tr></thead>
     <tbody>
-      <tr><td>スマホでURLが開けない</td><td>同じWi-Fiか確認。ゲストWi-Fiなら端末どうしの通信が禁止されている可能性があるので、テザリングに切り替えます。macOS のファイアウォールで Python の受信を拒否していないかも確認します。</td></tr>
+      <tr><td>スマホでURLが開けない（「このサイトにアクセスできません」）</td><td>まずスマホの Wi-Fi 設定で、ネットワーク名がラップトップと<b>完全に同じ</b>か確認します。似た名前の別ネットワーク（「-guest」「-5G」「-2.4G」など）や、Wi-Fiが切れてモバイル通信になっていることがよくあります。名前が同じでも開けないときは、ルーターが端末どうしの通信を止めています（プライバシーセパレーター）。ルーターの設定でオフにするか、テザリングに全員でつなぎます。macOS のファイアウォールで Python の受信を拒否していないかも確認します。</td></tr>
       <tr><td>ずっと「翻訳中…」のまま</td><td>ラップトップの localhost のタブを開き、<span class="ui">翻訳モデルをダウンロード</span> ボタンが出ていないか見ます。タブが閉じていたら開き直して参加します。</td></tr>
       <tr><td>「翻訳役のPC（ChromeかEdge）がまだ参加していません」</td><td>ラップトップで <code>http://localhost:8765</code> をデスクトップ版の Chrome / Edge で開き、参加します。</td></tr>
       <tr><td>「翻訳できない言語の組み合わせです」</td><td>その組み合わせに Chrome が対応していません。原文がそのまま表示されます。英語など共通の言語で書いてもらうと届きます。</td></tr>
